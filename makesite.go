@@ -43,7 +43,7 @@ func main() {
 
 	// newFile.Close()
 
-	newFile := flag.String("file", "default", "Txt file to read:")
+	newFile := flag.String("file", "", "Txt file to read:")
 	flag.Parse()
 	save(*newFile)
 
@@ -51,12 +51,12 @@ func main() {
 }
 
 func save(inputFile string) {
-	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
+	fileContents, err := ioutil.ReadFile("/" + inputFile)
 	check(err)
 	outputFile := inputFile + ".html"
 
 	page := Page{
-		TextFilePath: "./" + inputFile,
+		TextFilePath: "/" + inputFile,
 		TextFileName: inputFile,
 		HTMLPagePath: outputFile,
 		Content:      string(fileContents),
@@ -64,7 +64,7 @@ func save(inputFile string) {
 
 	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
-	newFile, err := os.Create("first-post.html")
+	newFile, err := os.Create(outputFile)
 	check(err)
 
 	t.Execute(newFile, page)
