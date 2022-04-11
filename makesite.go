@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	// "log"
-	// "html/template"
+	"io/ioutil"
 )
 
 func check(e error) {
@@ -14,7 +11,11 @@ func check(e error) {
 }
 
 func main() {
-	content, err := os.ReadFile("first-post.txt")
+	// content, err := os.ReadFile("first-post.txt")
+	// check(err)
+	// fmt.Println(string(content))
+
+	bytesToWrite := []byte("hello\ngo")
+	err := ioutil.WriteFile("new-file.txt", bytesToWrite, 0644)
 	check(err)
-	fmt.Println(string(content))
 }
