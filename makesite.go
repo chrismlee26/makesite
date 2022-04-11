@@ -2,13 +2,16 @@ package main
 
 import (
 	"fmt"
-	"html/template"
+	"log"
+	"os"
+	// "os"
+	// "html/template"
 )
 
 func main() {
-	fmt.Println("Hello, world!")
-	// Parse data
-	paths := []string{"template.tmpl"}
-
-	t := template.Must(template.New("html-tmpl").ParseFiles(paths...))
+	content, err := os.ReadFile("first-post.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(content))
 }
