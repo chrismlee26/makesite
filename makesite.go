@@ -1,16 +1,10 @@
 package main
 
 import (
-	// "fmt"
-
 	"html/template"
+	"io/ioutil"
 	"os"
 )
-
-type post struct {
-	Title   string
-	Content string
-}
 
 type Page struct {
 	TextFilePath string
@@ -26,26 +20,23 @@ func check(e error) {
 }
 
 func main() {
-	// content, err := os.ReadFile("first-post.txt")
-	// check(err)
-	// fmt.Println(string(content))
+	fileContents, err := ioutil.ReadFile("first-post.txt")
+	check(err)
 
-	// bytesToWrite := []byte("hello\ngo")
-	// err := ioutil.WriteFile("new-file.txt", bytesToWrite, 0644)
-	// check(err)
-
-	fileContents := []byte("A string for demo purposes.")
 	page := Page{
-		TextFilePath: "filePath",
-		TextFileName: "new",
-		HTMLPagePath: "new.html",
+		TextFilePath: "./first-post.txt",
+		TextFileName: "First Post",
+		HTMLPagePath: "first-post.html",
 		Content:      string(fileContents),
 	}
 
 	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
-	newFile, err := os.Create("new.html")
+	newFile, err := os.Create("first-post.html")
 	check(err)
 
 	t.Execute(newFile, page)
+	newFile.Close()
+
+	// http.ListenAndServe(":8080", nil)
 }
