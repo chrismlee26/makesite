@@ -2,16 +2,19 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
-	// "os"
+	// "log"
 	// "html/template"
 )
 
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 func main() {
 	content, err := os.ReadFile("first-post.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
 	fmt.Println(string(content))
 }
