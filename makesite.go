@@ -1,10 +1,8 @@
 package main
 
 import (
-	"flag"
-	"html/template"
+	"fmt"
 	"io/ioutil"
-	"os"
 	// "fmt"
 )
 
@@ -22,54 +20,42 @@ func check(e error) {
 }
 
 func main() {
-	// fileContents, err := ioutil.ReadFile("first-post.txt")
-	// check(err)
+	// newFile := flag.String("file", "", "Txt file to read:")
+	// flag.Parse()
+	// save(*newFile)
 
-	// page := Page{
-	// 	TextFilePath: "./first-post.txt",
-	// 	TextFileName: "First Post",
-	// 	HTMLPagePath: "first-post.html",
-	// 	Content:      string(fileContents),
-	// }
-
-	// t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
-
-	// newFile, err := os.Create("first-post.html")
-	// check(err)
-
-	// t.Execute(newFile, page)
-
-	// fmt.Println(string(fileContents))
-
-	// newFile.Close()
-
-	newFile := flag.String("file", "", "Txt file to read:")
-	flag.Parse()
-	save(*newFile)
-
-	// http.ListenAndServe(":8080", nil)
-}
-
-func save(inputFile string) {
-	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
+	directory := "."
+	files, err := ioutil.ReadDir(directory)
 	check(err)
-	outputFile := inputFile + ".html"
 
-	page := Page{
-		TextFilePath: "/" + inputFile,
-		TextFileName: inputFile,
-		HTMLPagePath: outputFile,
-		Content:      string(fileContents),
+	for _, file := range files {
+		fmt.Println(file.Name(), file.IsDir())
+		fmt.Println("--")
 	}
-
-	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
-
-	newFile, err := os.Create(outputFile)
-	check(err)
-
-	t.Execute(newFile, page)
-
 }
+
+// func save(inputFile string) {
+// 	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
+// 	check(err)
+// 	outputFile := inputFile + ".html"
+
+// 	page := Page{
+// 		TextFilePath: "/" + inputFile,
+// 		TextFileName: inputFile,
+// 		HTMLPagePath: outputFile,
+// 		Content:      string(fileContents),
+// 	}
+
+// 	t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
+
+// 	newFile, err := os.Create(outputFile)
+// 	check(err)
+
+// 	t.Execute(newFile, page)
+
+// }
+
+// func ReadDir(dirname string) ([]os.FileInfo, error)
 
 // func ReadDir(dirname string) ([]os.FileInfo, error) {
 // 	files, err := ioutil.ReadDir(".")
