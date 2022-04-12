@@ -51,7 +51,7 @@ func main() {
 }
 
 func save(inputFile string) {
-	fileContents, err := ioutil.ReadFile("/" + inputFile)
+	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
 	check(err)
 	outputFile := inputFile + ".html"
 
@@ -70,3 +70,16 @@ func save(inputFile string) {
 	t.Execute(newFile, page)
 
 }
+
+// func ReadDir(dirname string) ([]os.FileInfo, error) {
+// 	files, err := ioutil.ReadDir(".")
+// 	check(err)
+
+// 	for _, file := range files {
+// 		fmt.Println("File:", file.Name())
+// 	}
+// 	fmt.Println(
+// 		"\n", "Files in directory:", len(files),
+// 	)
+// 	return files, err
+// }
