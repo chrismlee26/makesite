@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	// "fmt"
 )
 
 type Page struct {
@@ -29,9 +28,18 @@ func main() {
 	check(err)
 
 	for _, file := range files {
-		fmt.Println(file.Name(), file.IsDir())
-		fmt.Println("--")
+		if file.Name()[len(file.Name())-3:] == "txt" {
+			fmt.Println(file.Name(), "----")
+			// return
+		}
 	}
+
+	// dir := flag.String("dir", "", "Directory to read:")
+	// flag.Parse()
+}
+
+func checkTxt(inputFile string) {
+
 }
 
 // func save(inputFile string) {
