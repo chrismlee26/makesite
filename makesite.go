@@ -19,18 +19,16 @@ func check(e error) {
 }
 
 func main() {
-	// newFile := flag.String("file", "", "Txt file to read:")
-	// flag.Parse()
-	// save(*newFile)
-
+	// Define directory with variable name
 	directory := "."
 	files, err := ioutil.ReadDir(directory)
 	check(err)
 
+	// **Flag to search specified directory for "txt" files
+
 	for _, file := range files {
 		if file.Name()[len(file.Name())-3:] == "txt" {
-			fmt.Println(file.Name(), "----")
-			// return
+			fmt.Println(file.Name(), "\n", "----")
 		}
 	}
 
@@ -38,9 +36,8 @@ func main() {
 	// flag.Parse()
 }
 
-func checkTxt(inputFile string) {
-
-}
+// **Take the outputs from the above function and create new HTML pages with the data.
+// **Refactor save function below.
 
 // func save(inputFile string) {
 // 	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
@@ -61,19 +58,4 @@ func checkTxt(inputFile string) {
 
 // 	t.Execute(newFile, page)
 
-// }
-
-// func ReadDir(dirname string) ([]os.FileInfo, error)
-
-// func ReadDir(dirname string) ([]os.FileInfo, error) {
-// 	files, err := ioutil.ReadDir(".")
-// 	check(err)
-
-// 	for _, file := range files {
-// 		fmt.Println("File:", file.Name())
-// 	}
-// 	fmt.Println(
-// 		"\n", "Files in directory:", len(files),
-// 	)
-// 	return files, err
 // }
