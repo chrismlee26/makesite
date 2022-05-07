@@ -3,6 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"html/template"
+
+	// "html/template"
 	"io/ioutil"
 	"os"
 )
@@ -20,25 +23,26 @@ func check(e error) {
 	}
 }
 
-func save(inputFile string) {
-	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
-	check(err)
-	outputFile := inputFile + ".html"
-
-	page := Page{
+func save(inputFile string, outputFile string) {
+	slice := Page{
 		TextFilePath: "/" + inputFile,
 		TextFileName: inputFile,
 		HTMLPagePath: outputFile,
 		Content:      string(fileContents),
 	}
+	page, _ := template.ParseFiles("template.tmpl")
 
-	page, _ := slice.ParseFiles("template.tmpl")
-	newFile, err := os.Create(outputFile)
-	err := t.Execute(newFile, page)
+	newFile, _ := os.Create(outputFile)
+	err := page.Execute(newFile, slice)
 	check(err)
+
 }
 
 func main() {
+	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
+	check(err)
+	outputFile := inputFile + ".html"
+
 	// Define directory with variable name
 	directory := "."
 	files, err := ioutil.ReadDir(directory)
