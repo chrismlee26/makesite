@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-
-	// "html/template"
 	"io/ioutil"
 	"os"
 )
@@ -23,43 +21,46 @@ func check(e error) {
 	}
 }
 
-func save(inputFile string, outputFile string) {
+func save(inputFile string) {
+	fileContents, err := ioutil.ReadFile(inputFile + ".txt")
 	slice := Page{
 		TextFilePath: "/" + inputFile,
 		TextFileName: inputFile,
-		HTMLPagePath: outputFile,
+		HTMLPagePath: inputFile + ".html",
 		Content:      string(fileContents),
 	}
 	page, _ := template.ParseFiles("template.tmpl")
 
-	newFile, _ := os.Create(outputFile)
-	err := page.Execute(newFile, slice)
+	newFile, _ := os.Create(inputFile + ".html")
+	err = page.Execute(newFile, slice)
 	check(err)
-
 }
 
 func main() {
-	fileContents, err := ioutil.ReadFile("./" + inputFile + ".txt")
-	check(err)
-	outputFile := inputFile + ".html"
 
-	// Define directory with variable name
-	directory := "."
-	files, err := ioutil.ReadDir(directory)
-	check(err)
-	flag.Parse()
-
-	// **Flag to search specified directory for "txt" files
-
-	for _, file := range files {
-		if file.Name()[len(file.Name())-3:] == "txt" {
-			fmt.Println(file.Name(), "\n", "----")
-		}
+	// Render specified text file to HTML page
+	// ex command: go run makesite.go --file first-post
+	// NOTE make sure not to include extension of text file (first-post vs first-post.txt)
+	inputFilePtr := flag.String("file", "", "File to render to HTML")
+	inputFile := *inputFilePtr
+	if inputFile != "" {
+		save(inputFile)
 	}
 
-	dir := flag.String("dir", "", "Directory to read:")
+	// Render text files in specified directory to HTML pages
+	// ex command: go run makesite.go --dir .
+	dirPtr := flag.String("dir", "", "Directory to read")
 	flag.Parse()
-}
+	dir := *dirPtr
 
-// **Take the outputs from the above function and create new HTML pages with the data.
-// **Refactor save function below.
+	if dir != "" {
+		files, _ := ioutil.ReadDir(dir)
+
+		for _, file := range files {
+			if file.Name()[len(file.Name())-3:] == "txt" {
+				fmt.Println(file.Name(), "\n", "----")
+				save(file.Name()[:len(file.Name())-4])
+			}
+		}
+	}
+}
